@@ -1,0 +1,7 @@
+/Users/shadow/Desktop/Poisson_surface_reconstruction_3/CMakeFiles/rebuild_cache.dir
+/Users/shadow/Desktop/Poisson_surface_reconstruction_3/CMakeFiles/edit_cache.dir
+/Users/shadow/Desktop/Poisson_surface_reconstruction_3/CMakeFiles/poisson_reconstruction_function.dir
+/Users/shadow/Desktop/Poisson_surface_reconstruction_3/CMakeFiles/cgal_check_build_system.dir
+/Users/shadow/Desktop/Poisson_surface_reconstruction_3/CMakeFiles/poisson_reconstruction.dir
+/Users/shadow/Desktop/Poisson_surface_reconstruction_3/CMakeFiles/ALL_CGAL_TARGETS.dir
+/Users/shadow/Desktop/Poisson_surface_reconstruction_3/CMakeFiles/poisson_reconstruction_example.dir
