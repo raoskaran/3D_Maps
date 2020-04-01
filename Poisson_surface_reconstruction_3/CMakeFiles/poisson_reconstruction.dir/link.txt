@@ -1,1 +1,0 @@
-/usr/local/bin/g++-9  -O3 -DNDEBUG -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/poisson_reconstruction.dir/poisson_reconstruction.cpp.o  -o poisson_reconstruction  /usr/local/lib/libmpfr.dylib /usr/local/lib/libgmp.dylib 
