@@ -10,8 +10,11 @@ import mcubes
 import matplotlib.pyplot as plt
 from pyntcloud import PyntCloud
 from pprint import pprint
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+from skimage import measure
 
 def draw_geometries_with_back_face(geometries):
+
     visualizer = o3d.visualization.Visualizer()
     visualizer.create_window()
     render_option = visualizer.get_render_option()
@@ -21,6 +24,23 @@ def draw_geometries_with_back_face(geometries):
     visualizer.run()
     visualizer.destroy_window()
 
+def generate_voxel(cloud):
+
+    voxelgrid_id = cloud.add_structure("voxelgrid", n_x=32, n_y=32, n_z=32)
+
+    voxelgrid = cloud.structures[voxelgrid_id]
+
+    x_cords = voxelgrid.voxel_x
+    y_cords = voxelgrid.voxel_y
+    z_cords = voxelgrid.voxel_z
+
+    voxel = np.zeros((32, 32, 32))
+
+    for x, y, z in zip(x_cords, y_cords, z_cords):
+        voxel[x][y][z] = 1
+    
+    return voxel
+
 pcd = o3d.io.read_point_cloud("data/chair.xyz")
 cloud = PyntCloud.from_file("data/chair.xyz", sep=" ")
 pcd.estimate_normals()
@@ -28,7 +48,7 @@ pcd.estimate_normals()
 # estimate radius for rolling ball
 distances = pcd.compute_nearest_neighbor_distance()
 avg_dist = np.mean(distances)
-radius = 1.5 * avg_dist   
+radius = 1.5 * avg_dist  
 
 # Ball pivoting
 
@@ -42,9 +62,9 @@ radius = 1.5 * avg_dist
 
 # Tetrahederal/Delaunay
 
-# mesh = o3d.geometry.TetraMesh.create_from_point_cloud(pcd)
+# mesh = o3d.geometry.TetraMesh.create_from_point_cloud(pcd)[0]
 
-# o3d.visualization.draw_geometries([mesh[0]]) # Visualization for tetrahedral
+# o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
 
 # Alpha
 
@@ -92,24 +112,40 @@ radius = 1.5 * avg_dist
 
 # Marching cubes
 
-# voxelgrid_id = cloud.add_structure("voxelgrid", n_x=32, n_y=32, n_z=32)
-
-# voxelgrid = cloud.structures[voxelgrid_id]
-
-# x_cords = voxelgrid.voxel_x
-# y_cords = voxelgrid.voxel_y
-# z_cords = voxelgrid.voxel_z
-
-# voxel = np.zeros((32, 32, 32))
-
-# for x, y, z in zip(x_cords, y_cords, z_cords):
-#     voxel[x][y][z] = 1
+# voxel = generate_voxel(cloud)
 
 # # smooth = mcubes.smooth(voxel)
 
 # vertices, triangles = mcubes.marching_cubes(voxel, 0)
 
 # mcubes.export_mesh(vertices, triangles, "outputs/scene.dae", "MyScene")
+
+# Marching cubes skimage
+
+# voxel = generate_voxel(cloud)
+
+# verts, faces, normals, values = measure.marching_cubes_lewiner(voxel, 0)
+
+# # Display resulting triangular mesh using Matplotlib. This can also be done
+# # with mayavi (see skimage.measure.marching_cubes_lewiner docstring).
+# fig = plt.figure(figsize=(10, 10))
+# ax = fig.add_subplot(111, projection='3d')
+
+# # Fancy indexing: `verts[faces]` to generate a collection of triangles
+# mesh = Poly3DCollection(verts[faces])
+# mesh.set_edgecolor('k')
+# ax.add_collection3d(mesh)
+
+# ax.set_xlabel("x-axis: a = 6 per ellipsoid")
+# ax.set_ylabel("y-axis: b = 10")
+# ax.set_zlabel("z-axis: c = 16")
+
+# ax.set_xlim(0, 24)  # a = 6 (times two for 2nd ellipsoid)
+# ax.set_ylim(0, 20)  # b = 10
+# ax.set_zlim(0, 32)  # c = 16
+
+# plt.tight_layout()
+# plt.show()
 
 # Write mesh to file
 
