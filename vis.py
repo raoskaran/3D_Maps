@@ -21,7 +21,7 @@ def draw_geometries_with_back_face(geometries):
     visualizer.run()
     visualizer.destroy_window()
 
-pcd = o3d.io.read_point_cloud("chair.xyz")
+pcd = o3d.io.read_point_cloud("data/chair.xyz")
 pcd.estimate_normals()
 
 # estimate radius for rolling ball
@@ -114,5 +114,5 @@ radius = 1.5 * avg_dist
 
 # Write mesh to file
 
-# o3d.io.write_triangle_mesh("output.ply", mesh) 
+# o3d.io.write_triangle_mesh("outputs/output.ply", mesh) 
 
