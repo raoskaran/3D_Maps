@@ -22,6 +22,7 @@ def draw_geometries_with_back_face(geometries):
     visualizer.destroy_window()
 
 pcd = o3d.io.read_point_cloud("data/chair.xyz")
+cloud = PyntCloud.from_file("data/chair.xyz", sep=" ")
 pcd.estimate_normals()
 
 # estimate radius for rolling ball
@@ -91,8 +92,6 @@ radius = 1.5 * avg_dist
 
 # Marching cubes
 
-# cloud = PyntCloud.from_file("eiffel.xyz", sep=" ")
-
 # voxelgrid_id = cloud.add_structure("voxelgrid", n_x=32, n_y=32, n_z=32)
 
 # voxelgrid = cloud.structures[voxelgrid_id]
@@ -110,7 +109,7 @@ radius = 1.5 * avg_dist
 
 # vertices, triangles = mcubes.marching_cubes(voxel, 0)
 
-# mcubes.export_mesh(vertices, triangles, "scene.dae", "MyScene")
+# mcubes.export_mesh(vertices, triangles, "outputs/scene.dae", "MyScene")
 
 # Write mesh to file
 
