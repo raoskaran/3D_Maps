@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.spatial import Delaunay
 from mpl_toolkits.mplot3d import Axes3D
-
+import triangle as tr
 #--------------def funtion extract point cloud-------------------
 def point_cloud(inp):
     node = []
@@ -15,7 +15,7 @@ def point_cloud(inp):
     return node
 #--------------------end function---------------------------------
 
-with open("eiffel.xyz","r") as fo:
+with open("data/chair.xyz","r") as fo:
     pc = point_cloud(fo)
 
 u = []
@@ -33,15 +33,24 @@ va = np.array(v)
 #tri = mtri.Triangulation(u, v)
 tri = Delaunay(np.array([u,v]).T)
 
-points = []
+points3d = []
+points2d = []
 vertex = []
 
 for i in range(ua.shape[0]):
-    points.append([ua[i],va[i],w[i]])
+    points3d.append([ua[i],va[i],w[i]])
+    points2d.append([ua[i],va[i]])
+
 
 for vert in tri.simplices:
 #for vert in tri.triangles:
-    vertex.append(vert)      
+    vertex.append(vert)   
+
+pts = np.asarray(points2d)
+A = dict(vertices=points2d)
+B = tr.triangulate(A)
+# tr.compare(plt, A, B)
+# plt.show()   
 
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1, projection='3d')

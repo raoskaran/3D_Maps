@@ -1,0 +1,9 @@
+open3d
+trimesh
+pandas
+pymcubes
+numpy
+pprint
+matplotlib
+scikit-image
+pyntcloud

@@ -41,8 +41,8 @@ def generate_voxel(cloud):
     
     return voxel
 
-pcd = o3d.io.read_point_cloud("data/chair.xyz")
-cloud = PyntCloud.from_file("data/chair.xyz", sep=" ")
+pcd = o3d.io.read_point_cloud("data/points.xyz")
+cloud = PyntCloud.from_file("data/points.xyz", sep=" ")
 pcd.estimate_normals()
 
 # estimate radius for rolling ball
@@ -62,9 +62,9 @@ radius = 1.5 * avg_dist
 
 # Tetrahederal/Delaunay
 
-# mesh = o3d.geometry.TetraMesh.create_from_point_cloud(pcd)[0]
+mesh = o3d.geometry.TetraMesh.create_from_point_cloud(pcd)[0]
 
-# o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
+o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
 
 # Alpha
 
