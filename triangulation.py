@@ -1,42 +1,20 @@
-import meshpy.triangle as triangle
+import pyvista as pv
+import pandas as pd
 import numpy as np
-import numpy.linalg as la
-from six.moves import range
+import open3d as o3d
 
+pv.set_plot_theme('document')
 
-def round_trip_connect(start, end):
-    return [(i, i+1) for i in range(start, end)] + [(end, start)]
+# df = pd.read_csv('data/chair.csv')
+# points = df[['x', 'y', 'z']].values
+pcd = o3d.io.read_point_cloud("data/chair.xyz")
+voxel_down_pcd = pcd.voxel_down_sample(voxel_size=0.02)
+pcd, ind = voxel_down_pcd.remove_statistical_outlier(nb_neighbors=20, std_ratio=1.0)
+points = np.asarray(pcd.points)
+points = points[~np.all(points == 0, axis=1)]
+cloud = pv.PolyData(points)
+cloud['order'] = np.linspace(0,1,cloud.n_points)
 
-
-def main():
-    points = [(1, 0,1), (1, 1,0), (-1, 1,1), (-1, -1,0), (1, -1, -1), (1, 0, 1)]
-    facets = round_trip_connect(0, len(points)-1)
-
-    circ_start = len(points)
-    points.extend(
-            (3 * np.cos(angle), 3 * np.sin(angle))
-            for angle in np.linspace(0, 2*np.pi, 30, endpoint=False))
-
-    facets.extend(round_trip_connect(circ_start, len(points)-1))
-
-    def needs_refinement(vertices, area):
-        bary = np.sum(np.array(vertices), axis=0)/3
-        max_area = 0.001 + (la.norm(bary, np.inf)-1)*0.01
-        return bool(area > max_area)
-
-    info = triangle.MeshInfo()
-    info.set_points(points)
-    info.set_holes([(0, 0)])
-    info.set_facets(facets)
-
-    mesh = triangle.build(info, refinement_func=needs_refinement)
-
-    mesh_points = np.array(mesh.points)
-    mesh_tris = np.array(mesh.elements)
-
-    import matplotlib.pyplot as pt
-    pt.triplot(mesh_points[:, 0], mesh_points[:, 1], mesh_tris)
-    pt.show()
-
-if __name__ == "__main__":
-    main()
+surf = cloud.delaunay_2d(alpha=1.0)
+surf = surf.smooth(n_iter = 500)
+surf.plot(show_edges=True, show_grid=False, cpos="xy")

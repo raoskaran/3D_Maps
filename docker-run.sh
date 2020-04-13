@@ -1,0 +1,1 @@
+docker run -v pwd:/3D_Maps -it pymesh

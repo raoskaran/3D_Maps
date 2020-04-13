@@ -7,3 +7,6 @@ pprint
 matplotlib
 scikit-image
 pyntcloud
+pyvista
+vtk
+pymeshfix

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial import Delaunay
 from mpl_toolkits.mplot3d import Axes3D
 import triangle as tr
-#--------------def funtion extract point cloud-------------------
+
 def point_cloud(inp):
     node = []
     for line in inp:
@@ -13,7 +13,6 @@ def point_cloud(inp):
     # print(node)
     node = set(map(tuple,node))
     return node
-#--------------------end function---------------------------------
 
 with open("data/chair.xyz","r") as fo:
     pc = point_cloud(fo)

@@ -1,17 +1,19 @@
-# VISUALIZATION TECHNIQUES FOR XYZ POINTCLOUDS
+#----------------------------------VISUALIZATION TECHNIQUES FOR XYZ POINTCLOUDS----------------------------------
 
-# Uncomment section as per requirement
-
+#----------------------------------Uncomment section as per requirement------------------------------------------
 
 import open3d as o3d
 import trimesh, pandas as pd
 import numpy as np
 import mcubes
+import pyvista as pv
 import matplotlib.pyplot as plt
 from pyntcloud import PyntCloud
 from pprint import pprint
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from skimage import measure
+
+#----------------------------------------------Helper functions----------------------------------------------
 
 def draw_geometries_with_back_face(geometries):
 
@@ -41,32 +43,53 @@ def generate_voxel(cloud):
     
     return voxel
 
-pcd = o3d.io.read_point_cloud("data/points.xyz")
-cloud = PyntCloud.from_file("data/points.xyz", sep=" ")
-pcd.estimate_normals()
+def display_inlier_outlier(cloud, ind):
+    inlier_cloud = cloud.select_down_sample(ind)
+    outlier_cloud = cloud.select_down_sample(ind, invert=True)
+
+    print("Showing outliers (red) and inliers (gray): ")
+    outlier_cloud.paint_uniform_color([1, 0, 0])
+    inlier_cloud.paint_uniform_color([0.8, 0.8, 0.8])
+    o3d.visualization.draw_geometries([inlier_cloud, outlier_cloud])
+
+
+#----------------------------------------------Preprocessing----------------------------------------------
+
+pcd = o3d.io.read_point_cloud("data/scene.xyz")
+cloud = PyntCloud.from_file("data/scene.xyz", sep=" ")
 
 # estimate radius for rolling ball
 distances = pcd.compute_nearest_neighbor_distance()
 avg_dist = np.mean(distances)
 radius = 1.5 * avg_dist  
 
-# Ball pivoting
+# remove outliers
+voxel_down_pcd = pcd.voxel_down_sample(voxel_size=0.02)
+pcd, ind = voxel_down_pcd.remove_statistical_outlier(nb_neighbors=20, std_ratio=1.0)
+pcd.estimate_normals()
+points = np.asarray(pcd.points)
+# display_inlier_outlier(voxel_down_pcd, ind)
+# o3d.visualization.draw_geometries([pcd])
 
-# mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_ball_pivoting(
-#            pcd,
-#            o3d.utility.DoubleVector([radius, radius * 2]))
+#----------------------------------------------Ball pivoting----------------------------------------------
 
-# trimesh = trimesh.Trimesh(np.asarray(mesh.vertices), np.asarray(mesh.triangles), vertex_normals=np.asarray(mesh.vertex_normals))
+mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_ball_pivoting(
+           pcd,
+           o3d.utility.DoubleVector([radius, radius * 2]))
 
-# trimesh.show()
+mesh.compute_vertex_normals()
 
-# Tetrahederal/Delaunay
+trimesh = trimesh.Trimesh(np.asarray(mesh.vertices), np.asarray(mesh.triangles), vertex_normals=np.asarray(mesh.vertex_normals))
 
-mesh = o3d.geometry.TetraMesh.create_from_point_cloud(pcd)[0]
+trimesh.show()
 
-o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
+#----------------------------------------------Tetrahederal-----------------------------------------------
 
-# Alpha
+# mesh = o3d.geometry.TetraMesh.create_from_point_cloud(pcd)[0]
+
+# o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
+
+#----------------------------------------------Alpha---------------------------------------------------------
 
 # o3d.utility.set_verbosity_level(o3d.utility.Debug)
 # o3d.visualization.draw_geometries([pcd])
@@ -80,7 +103,20 @@ o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
 #     mesh.compute_vertex_normals()
 #     draw_geometries_with_back_face([mesh])
 
-# Poisson reconstruction
+#----------------------------------------------Delaunay Triangulation---------------------------------------
+
+# pv.set_plot_theme('document')
+
+# points = points[~np.all(points == 0, axis=1)]
+# pointcloud = pv.PolyData(points)
+# pointcloud['order'] = np.linspace(0,1,pointcloud.n_points)
+
+# surf = pointcloud.delaunay_2d(alpha=1.0)
+# surf = surf.smooth(n_iter = 10000)
+# surf.plot(show_edges=True, show_grid=False, cpos="xy")
+# surf.save("outputs/suitcase.vtk")
+
+#----------------------------------------------Poisson reconstruction---------------------------------------
 
 # o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Debug)
 
@@ -110,7 +146,7 @@ o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
 # print(mesh)
 # o3d.visualization.draw_geometries([mesh])
 
-# Marching cubes
+#----------------------------------------------Marching cubes-----------------------------------------------
 
 # voxel = generate_voxel(cloud)
 
@@ -120,7 +156,7 @@ o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
 
 # mcubes.export_mesh(vertices, triangles, "outputs/scene.dae", "MyScene")
 
-# Marching cubes skimage
+#----------------------------------------------Marching cubes skimage---------------------------------------
 
 # voxel = generate_voxel(cloud)
 
@@ -147,7 +183,7 @@ o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
 # plt.tight_layout()
 # plt.show()
 
-# Write mesh to file
+#----------------------------------------------Write mesh to file-------------------------------------------
 
 # o3d.io.write_triangle_mesh("outputs/output.ply", mesh) 
 
