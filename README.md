@@ -1,6 +1,6 @@
-# 3D_Maps
+# 3D Maps
 
-3D mapping using mesh generation from Intel RealSense pointclouds.
+3D map generation using meshing algorithms on XYZ pointclouds created from Intel RealSense Depth and Tracking cameras.
 
 ## Installation instructions
 
