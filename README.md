@@ -1,4 +1,5 @@
-# BE_Project
+# 3D_Maps
+
 3D meshing using point clouds from Intel RealSense
 
 # Citations
