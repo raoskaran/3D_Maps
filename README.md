@@ -23,6 +23,8 @@
 	>>>import sys
 	>>>sys.path.append('/usr/local/lib') # Forgetting to do this will result in an import error for pyrealsense2
 	>>>import pyrealsense2 as rs
+	
+	Or if you want to avoid appending the path, either use export PYTHONPATH=$PYTHONPATH:/usr/local/lib or add PYTHONPATH=$PYTHONPATH:/usr/local/lib to .bash_profile and .bashrc files.
 
 #### 3. Install the requirements of the project
 
