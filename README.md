@@ -1,6 +1,6 @@
 # 3D_Maps
 
-3D meshing using point clouds from Intel RealSense
+3D mapping using mesh generation from Intel RealSense pointclouds.
 
 ## Installation instructions
 
