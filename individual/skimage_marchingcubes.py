@@ -11,7 +11,7 @@ from skimage.draw import ellipsoid
 # ellip_double = np.concatenate((ellip_base[:-1, ...],
 #                                ellip_base[2:, ...]), axis=0)
 
-cloud = PyntCloud.from_file("data/points.xyz", sep=" ")
+cloud = PyntCloud.from_file("../data/points.xyz", sep=" ")
 # k_neighbors = cloud.get_neighbors(k=10)
 # cloud.add_scalar_field("normals", k_neighbors=k_neighbors)
 

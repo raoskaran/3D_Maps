@@ -14,7 +14,7 @@ def point_cloud(inp):
     node = set(map(tuple,node))
     return node
 
-with open("data/chair.xyz","r") as fo:
+with open("../data/chair.xyz","r") as fo:
     pc = point_cloud(fo)
 
 u = []

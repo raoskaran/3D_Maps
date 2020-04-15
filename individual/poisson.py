@@ -7,7 +7,7 @@ import meshes
 if __name__ == "__main__":
     o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Debug)
 
-    pcd = o3d.io.read_point_cloud("points.xyz")
+    pcd = o3d.io.read_point_cloud("../data/points.xyz")
     print(pcd)
     pcd.estimate_normals()
     o3d.visualization.draw_geometries([pcd])

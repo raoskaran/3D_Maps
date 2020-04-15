@@ -7,7 +7,7 @@ pv.set_plot_theme('document')
 
 # df = pd.read_csv('data/chair.csv')
 # points = df[['x', 'y', 'z']].values
-pcd = o3d.io.read_point_cloud("data/chair.xyz")
+pcd = o3d.io.read_point_cloud("../data/chair.xyz")
 voxel_down_pcd = pcd.voxel_down_sample(voxel_size=0.02)
 pcd, ind = voxel_down_pcd.remove_statistical_outlier(nb_neighbors=20, std_ratio=1.0)
 points = np.asarray(pcd.points)
