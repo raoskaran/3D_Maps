@@ -18,7 +18,7 @@
 
 	For standard instructions refer to https://github.com/IntelRealSense/librealsense/tree/master/wrappers/python
 
-	There is a shell script provided in the scripts directory for installation on Mac OS. After running the script, to check installation:
+	There is a shell script provided in the scripts directory for installation on Mac OS. Edit the script to add your own paths. After running the script, to check installation:
 	
 	>>>import sys
 	>>>sys.path.append('/usr/local/lib') # Forgetting to do this will result in an import error for pyrealsense2
