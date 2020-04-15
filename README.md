@@ -29,7 +29,12 @@
 #### 3. Install the requirements of the project
 
 	> pip install -r requirements.txt
+	
+## Hardware used
 
+	1. Intel® RealSense™ Depth Camera D435
+	2. Intel® RealSense™ Tracking Camera T265
+	
 ## Citations
 
 **Open3D**
