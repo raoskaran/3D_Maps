@@ -38,6 +38,8 @@ add = wall1+corner12+wall2+corner23+wall3
 add.plot(eye_dome_lighting=True, show_edges=True, show_grid=False)
 add.save("outputs/scene.stl")
 
+# Code for applying Delaunay3d on the result of Ball Pivoting (Use vtk2stl.py in tools to convert)
+
 # mesh = pv.read("outputs/output.ply")
 # mesh.compute_normals()
 # mesh = mesh.delaunay_3d(alpha=0.5)
