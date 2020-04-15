@@ -22,9 +22,10 @@ v = []
 w = []
 
 for l in pc:
-    u.append(float(l[0]))
-    v.append(float(l[1]))
-    w.append(float(l[2])) 
+    if not l[0].isalpha():
+        u.append(float(l[0]))
+        v.append(float(l[1]))
+        w.append(float(l[2])) 
 
 ua = np.array(u)
 va = np.array(v)
@@ -44,12 +45,6 @@ for i in range(ua.shape[0]):
 for vert in tri.simplices:
 #for vert in tri.triangles:
     vertex.append(vert)   
-
-pts = np.asarray(points2d)
-A = dict(vertices=points2d)
-B = tr.triangulate(A)
-# tr.compare(plt, A, B)
-# plt.show()   
 
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1, projection='3d')

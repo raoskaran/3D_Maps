@@ -55,7 +55,7 @@ def display_inlier_outlier(cloud, ind):
 
 #----------------------------------------------Preprocessing----------------------------------------------
 
-pcd = o3d.io.read_point_cloud("data/scene.xyz")
+pcd = o3d.io.read_point_cloud("data/continous.xyz")
 cloud = PyntCloud.from_file("data/scene.xyz", sep=" ")
 
 # estimate radius for rolling ball
@@ -82,6 +82,7 @@ mesh.compute_vertex_normals()
 trimesh = trimesh.Trimesh(np.asarray(mesh.vertices), np.asarray(mesh.triangles), vertex_normals=np.asarray(mesh.vertex_normals))
 
 trimesh.show()
+
 
 #----------------------------------------------Tetrahederal-----------------------------------------------
 
@@ -111,10 +112,10 @@ trimesh.show()
 # pointcloud = pv.PolyData(points)
 # pointcloud['order'] = np.linspace(0,1,pointcloud.n_points)
 
-# surf = pointcloud.delaunay_2d(alpha=1.0)
-# surf = surf.smooth(n_iter = 10000)
-# surf.plot(show_edges=True, show_grid=False, cpos="xy")
-# surf.save("outputs/suitcase.vtk")
+# surf = pointcloud.delaunay_2d(alpha=2.0)
+# surf = surf.smooth(n_iter = 200)
+# surf.plot(eye_dome_lighting=True, show_edges=True, show_grid=False, cpos="xy")
+# surf.save("outputs/suitcase.stl")
 
 #----------------------------------------------Poisson reconstruction---------------------------------------
 
