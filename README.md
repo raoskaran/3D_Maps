@@ -2,9 +2,9 @@
 
 3D meshing using point clouds from Intel RealSense
 
-# Citations
+## Citations
 
-Open3D
+**Open3D**
 
 @article{Zhou2018,
 	author    = {Qian-Yi Zhou and Jaesik Park and Vladlen Koltun},
