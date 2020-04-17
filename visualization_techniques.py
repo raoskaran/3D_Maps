@@ -55,8 +55,8 @@ def display_inlier_outlier(cloud, ind):
 
 #----------------------------------------------Preprocessing----------------------------------------------
 
-pcd = o3d.io.read_point_cloud("data/continous_1.xyz")
-cloud = PyntCloud.from_file("data/scene.xyz", sep=" ")
+pcd = o3d.io.read_point_cloud("data/scenes/continous_2.xyz")
+cloud = PyntCloud.from_file("data/scenes/scene.xyz", sep=" ")
 
 # estimate radius for rolling ball
 distances = pcd.compute_nearest_neighbor_distance()
@@ -186,5 +186,5 @@ trimesh.show()
 
 #----------------------------------------------Write mesh to file-------------------------------------------
 
-# o3d.io.write_triangle_mesh("outputs/output.ply", mesh) 
+# o3d.io.write_triangle_mesh("outputs/scene.stl", mesh) 
 

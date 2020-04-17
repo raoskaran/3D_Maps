@@ -15,11 +15,11 @@ def gen_surface(pcd):
     surf = surf.smooth(n_iter = 200)
     return surf
 
-pcd1 = o3d.io.read_point_cloud("data/wall_1.xyz")
-pcd2 = o3d.io.read_point_cloud("data/wall_2.xyz")
-pcd3 = o3d.io.read_point_cloud("data/wall_3.xyz")
-pcd4 = o3d.io.read_point_cloud("data/corner_12.xyz")
-pcd5 = o3d.io.read_point_cloud("data/corner_23.xyz")
+pcd1 = o3d.io.read_point_cloud("data/discrete map/wall_1.xyz")
+pcd2 = o3d.io.read_point_cloud("data/discrete map/wall_2.xyz")
+pcd3 = o3d.io.read_point_cloud("data/discrete map/wall_3.xyz")
+pcd4 = o3d.io.read_point_cloud("data/discrete map/corner_12.xyz")
+pcd5 = o3d.io.read_point_cloud("data/discrete map/corner_23.xyz")
 
 pv.set_plot_theme('document')
 
@@ -36,12 +36,4 @@ corner23 = gen_surface(pcd5)
 corner23.rotate_z(-45)
 add = wall1+corner12+wall2+corner23+wall3
 add.plot(eye_dome_lighting=True, show_edges=True, show_grid=False)
-add.save("outputs/scene.stl")
-
-# Code for applying Delaunay3d on the result of Ball Pivoting (Use vtk2stl.py in tools to convert)
-
-# mesh = pv.read("outputs/output.ply")
-# mesh.compute_normals()
-# mesh = mesh.delaunay_3d(alpha=0.5)
-# mesh.plot(eye_dome_lighting=True, show_edges=True, show_grid=False)
-# mesh.save("outputs/ball_delaunay.vtk")
+add.save("map_outputs/discrete_scene.stl")
