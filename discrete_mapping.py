@@ -1,3 +1,5 @@
+# Code for generating a 3D model out of discrete (separate wall and corner) scene files
+
 import open3d as o3d 
 import pyvista as pv
 import numpy as np, pandas as pd
