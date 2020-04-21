@@ -2,6 +2,7 @@
 
 import open3d as o3d 
 import pyvista as pv
+from pyvista import examples
 import numpy as np, pandas as pd
 
 def gen_surface(pcd):
@@ -36,6 +37,36 @@ corner12 = gen_surface(pcd4)
 corner12.rotate_z(45)
 corner23 = gen_surface(pcd5)
 corner23.rotate_z(-45)
-add = wall1+corner12+wall2+corner23+wall3
-add.plot(eye_dome_lighting=True, show_edges=True, show_grid=False)
+add = (wall1+corner12+wall2+corner23+wall3).elevation()
 add.save("map_outputs/discrete_scene.stl")
+
+p = pv.Plotter()
+
+# Controlling the text properties of the scalar bar
+
+sargs = dict(
+    title_font_size=30,
+    label_font_size=30,
+    shadow=True,
+    n_labels=3,
+    italic=True,
+    fmt="%.1f",
+    font_family="arial",
+)
+
+lighting = False
+specular = 1.0
+diffuse = 0.5
+ambient = 0.5
+specular_power = 15
+
+# Adding texture (add texture=tex in the params to enable)
+
+# image_file = examples.mapfile
+# tex = pv.read_texture(image_file)
+# tex = examples.download_masonry_texture()
+
+p.add_mesh(add, interpolate_before_map=True, show_edges=True, smooth_shading=True, scalar_bar_args=sargs, specular=specular, specular_power=specular_power, diffuse=diffuse, ambient=ambient)
+p.enable_eye_dome_lighting()
+p.add_floor('z')
+p.show()

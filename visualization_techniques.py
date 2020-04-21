@@ -55,7 +55,7 @@ def display_inlier_outlier(cloud, ind):
 
 #----------------------------------------------Preprocessing----------------------------------------------
 
-pcd = o3d.io.read_point_cloud("data/scenes/continous_2.xyz")
+pcd = o3d.io.read_point_cloud("data/objects/sphere.xyz")
 cloud = PyntCloud.from_file("data/scenes/scene.xyz", sep=" ")
 
 # estimate radius for rolling ball
@@ -68,20 +68,22 @@ voxel_down_pcd = pcd.voxel_down_sample(voxel_size=0.02)
 pcd, ind = voxel_down_pcd.remove_statistical_outlier(nb_neighbors=20, std_ratio=1.0)
 pcd.estimate_normals()
 points = np.asarray(pcd.points)
+points = points[~np.all(points == 0, axis=1)]
+pcd.points = o3d.utility.Vector3dVector(points)
 # display_inlier_outlier(voxel_down_pcd, ind)
 # o3d.visualization.draw_geometries([pcd])
 
 #----------------------------------------------Ball pivoting----------------------------------------------
 
-mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_ball_pivoting(
-           pcd,
-           o3d.utility.DoubleVector([radius, radius * 2]))
+# mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_ball_pivoting(
+#            pcd,
+#            o3d.utility.DoubleVector([radius, radius * 2]))
 
-mesh.compute_vertex_normals()
+# mesh.compute_vertex_normals()
 
-trimesh = trimesh.Trimesh(np.asarray(mesh.vertices), np.asarray(mesh.triangles), vertex_normals=np.asarray(mesh.vertex_normals))
+# trimesh = trimesh.Trimesh(np.asarray(mesh.vertices), np.asarray(mesh.triangles), vertex_normals=np.asarray(mesh.vertex_normals))
 
-trimesh.show()
+# trimesh.show()
 
 
 #----------------------------------------------Tetrahederal-----------------------------------------------
@@ -106,16 +108,15 @@ trimesh.show()
 
 #----------------------------------------------Delaunay Triangulation---------------------------------------
 
-# pv.set_plot_theme('document')
+pv.set_plot_theme('document')
 
-# points = points[~np.all(points == 0, axis=1)]
-# pointcloud = pv.PolyData(points)
-# pointcloud['order'] = np.linspace(0,1,pointcloud.n_points)
+pointcloud = pv.PolyData(points)
+pointcloud['order'] = np.linspace(0,1,pointcloud.n_points)
 
-# surf = pointcloud.delaunay_2d(alpha=1.0)
-# surf = surf.smooth(n_iter = 200)
-# surf.plot(eye_dome_lighting=True, show_edges=True, show_grid=False, cpos="xy")
-# surf.save("outputs/scene1.stl")
+surf = pointcloud.delaunay_2d(alpha=1.0)
+surf = surf.smooth(n_iter = 200)
+surf.plot(eye_dome_lighting=True, show_edges=True, show_grid=False, cpos="xy")
+# surf.save("outputs/delaunay_scene.stl")
 
 #----------------------------------------------Poisson reconstruction---------------------------------------
 
