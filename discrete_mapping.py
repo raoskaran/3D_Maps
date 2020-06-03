@@ -38,6 +38,7 @@ corner12.rotate_z(45)
 corner23 = gen_surface(pcd5)
 corner23.rotate_z(-45)
 add = (wall1+corner12+wall2+corner23+wall3).elevation()
+add.texture_map_to_plane(inplace=True)
 add.save("map_outputs/discrete_scene.stl")
 
 p = pv.Plotter()
