@@ -34,6 +34,14 @@ Or if you want to avoid appending the path, either use export PYTHONPATH=$PYTHON
 
 1. Intel® RealSense™ Depth Camera D435
 2. Intel® RealSense™ Tracking Camera T265
+
+## Software used
+
+1. Python3
+2. Open3D
+3. PyVista
+4. LibRealSense SDK
+5. Pyrealsense library
 	
 ## Citations
 
