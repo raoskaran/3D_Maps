@@ -55,8 +55,8 @@ def display_inlier_outlier(cloud, ind):
 
 #----------------------------------------------Preprocessing----------------------------------------------
 
-pcd = o3d.io.read_point_cloud("data/scenes/nochair.xyz")
-cloud = PyntCloud.from_file("data/scenes/nochair.xyz", sep=" ")
+pcd = o3d.io.read_point_cloud("data/scenes/suitcase.xyz")
+cloud = PyntCloud.from_file("data/scenes/chair.xyz", sep=" ")
 times = []
 algorithms = ['Ball Pivoting','Tetrahedral','Alpha','Delaunay','Poisson','MC(Pymcubes)','MC(Skimage)']
 
