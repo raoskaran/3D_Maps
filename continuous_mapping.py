@@ -1,5 +1,3 @@
-# Code for generating a 3D model out of continuous scene files
-
 import open3d as o3d 
 import pyvista as pv
 from pyvista import examples
@@ -13,24 +11,18 @@ def gen_surface(pcd):
     points = points[~np.all(points == 0, axis=1)]
     pointcloud = pv.PolyData(points)
     pointcloud['order'] = np.linspace(0,1,pointcloud.n_points)
-    surf = pointcloud.delaunay_2d(tol=1e-05, alpha=2.0, offset=2.0, progress_bar=False)
+    surf = pointcloud.delaunay_2d(tol=1e-05, alpha=1.0, offset=2.0, progress_bar=False)
     surf.compute_normals(inplace=True)
     surf = surf.smooth(n_iter = 200)
     return surf
 
-pcds = []
-surfs = []
 
-for i in range(0,3):
-    path = "data/continuous map/file_%s.xyz"
-    pcd = o3d.io.read_point_cloud(path%i)
-    surf = gen_surface(pcd)
-    surfs.append(surf)
+pcd = o3d.io.read_point_cloud("data/scenes/continous_final.xyz")
 
-
-add = (surfs[0]+surfs[1]+surfs[2]).elevation()
-add.texture_map_to_plane(inplace=True)
-add.save("map_outputs/continuous_scene.stl")
+scene = gen_surface(pcd)
+scene = scene.elevation()
+scene.texture_map_to_plane(inplace=True)
+scene.save("map_outputs/continuous_scene.stl")
 
 p = pv.Plotter()
 
@@ -58,7 +50,7 @@ specular_power = 15
 # tex = pv.read_texture(image_file)
 # tex = examples.download_masonry_texture()
 
-p.add_mesh(add, interpolate_before_map=True, show_edges=True, smooth_shading=True, scalar_bar_args=sargs, specular=specular, specular_power=specular_power, diffuse=diffuse, ambient=ambient)
+p.add_mesh(scene, interpolate_before_map=True, show_edges=True, smooth_shading=True, scalar_bar_args=sargs, specular=specular, specular_power=specular_power, diffuse=diffuse, ambient=ambient)
 p.enable_eye_dome_lighting()
 p.add_floor('z')
 p.show()

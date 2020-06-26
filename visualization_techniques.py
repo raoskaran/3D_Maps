@@ -55,8 +55,8 @@ def display_inlier_outlier(cloud, ind):
 
 #----------------------------------------------Preprocessing----------------------------------------------
 
-pcd = o3d.io.read_point_cloud("data/scenes/suitcase.xyz")
-cloud = PyntCloud.from_file("data/scenes/chair.xyz", sep=" ")
+pcd = o3d.io.read_point_cloud("data/scenes/continous_final.xyz")
+cloud = PyntCloud.from_file("data/scenes/nochair.xyz", sep=" ")
 times = []
 algorithms = ['Ball Pivoting','Tetrahedral','Alpha','Delaunay','Poisson','MC(Pymcubes)','MC(Skimage)']
 
@@ -203,7 +203,7 @@ pcd.estimate_normals()
 
 #----------------------------------------------Delaunay Triangulation---------------------------------------
 
-# pv.set_plot_theme('document')
+pv.set_plot_theme('document')
 
 start = time.time()
 
