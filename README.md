@@ -30,6 +30,89 @@ Or if you want to avoid appending the path, either use export PYTHONPATH=$PYTHON
 
 	pip install -r requirements.txt
 	
+## Pointcloud Generation (Refer to pcd_generation folder)
+
+#### 1. Single frame generation
+	
+	This code is used for generating a point cloud from a single frame.
+	
+	Steps:
+	
+	a. Point the depth camera towards the object/scene you want to capture
+	b. Run single_frame_gen.py
+	c. The single frame will be plotted in matplotlib
+	d. The output is stored as a txt file
+	
+#### 2. Discrete frame generation
+	
+	This code is used for generating multiple point clouds from multiple frames.
+	
+	Steps:
+	
+	a. Point the depth camera towards the object/scene you want to capture
+	b. Run discrete_gen.py
+	c. After one frame is captured, the code reiterates to capture the next frame where the camera is pointing
+	d. Before moving on to the next frame, the relevant region of interest is calculated
+	e. After capturing the required number of frames, press ctrl+C to exit
+	f. The scene is plotted in matplotlib
+	g. Each frame is stored in a separate txt file
+	
+#### 3. Continuous frame generation
+	
+	This code is used for generating multiple point clouds from multiple frames.
+	
+	Steps:
+	
+	a. Point the depth camera towards the object/scene you want to capture
+	b. Run continuous_gen.py
+	c. After one frame is captured, the code reiterates to capture the next frame where the camera is pointing
+	d. Before moving on to the next frame, the relevant region of interest is calculated
+	e. After capturing the required number of frames, press ctrl+C to exit
+	f. The scene is plotted in matplotlib
+	g. The combined scene is stored in a single txt file
+	
+## Scene Generation 
+
+To create .xyz files from the .txt pointclouds, use xyzmaker.py and provide the path to the folder containing txt files as a command line argument.
+
+	Eg: python3 xyzmaker.py path/to/directory
+	
+#### 1. Single frame map generation
+	
+	This code is used for generating a map out of singularly captured frames i.e. outputs from single frame generation. Eg: One frame contains a wall, the other contains a corner and so on.
+	
+	Steps:
+	
+	a. Change the path in singleframe_mapping.py to include the directory containing the separately captured .xyz files
+	b. Run singleframe_mapping.py
+	c. The code runs delaunay triangulation on each frame and combines them together to form a complete scene.
+	d. Pyvista plots the scene which can be visualized
+	e. The scene is saved as a .stl file
+
+#### 2. Discrete map generation
+	
+	This code is used for generating a map out of multiple captured frames i.e. outputs from discrete generation.
+	
+	Steps:
+	
+	a. Change the path in discrete_mapping.py to include the directory containing the captured .xyz files
+	b. Run discrete_mapping.py
+	c. The code runs delaunay triangulation on each frame and combines them together to form a complete scene.
+	d. Pyvista plots the scene which can be visualized
+	e. The scene is saved as a .stl file
+	
+#### 3. Continuous map generation
+	
+	This code is used for generating a map out of multiple frames in a single file i.e. outputs from continuous generation.
+	
+	Steps:
+	
+	a. Change the path in continuous_mapping.py to include the directory containing the scene .xyz file
+	b. Run continuous_mapping.py
+	c. The code runs delaunay triangulation on the entire pointset to form a complete scene.
+	d. Pyvista plots the scene which can be visualized
+	e. The scene is saved as a .stl file
+
 ## Hardware used
 
 1. Intel® RealSense™ Depth Camera D435
