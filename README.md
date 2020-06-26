@@ -85,7 +85,7 @@ To create .xyz files from the .txt pointclouds, use xyzmaker.py and provide the 
 	
 	a. Change the path in singleframe_mapping.py to include the directory containing the separately captured .xyz files
 	b. Run singleframe_mapping.py
-	c. The code runs delaunay triangulation on each frame and combines them together to form a complete scene.
+	c. The code runs delaunay triangulation on each frame and combines them together to form a complete scene
 	d. Pyvista plots the scene which can be visualized
 	e. The scene is saved as a .stl file
 
@@ -97,7 +97,7 @@ To create .xyz files from the .txt pointclouds, use xyzmaker.py and provide the 
 	
 	a. Change the path in discrete_mapping.py to include the directory containing the captured .xyz files
 	b. Run discrete_mapping.py
-	c. The code runs delaunay triangulation on each frame and combines them together to form a complete scene.
+	c. The code runs delaunay triangulation on each frame and combines them together to form a complete scene
 	d. Pyvista plots the scene which can be visualized
 	e. The scene is saved as a .stl file
 	
@@ -109,7 +109,7 @@ To create .xyz files from the .txt pointclouds, use xyzmaker.py and provide the 
 	
 	a. Change the path in continuous_mapping.py to include the directory containing the scene .xyz file
 	b. Run continuous_mapping.py
-	c. The code runs delaunay triangulation on the entire pointset to form a complete scene.
+	c. The code runs delaunay triangulation on the entire pointset to form a complete scene
 	d. Pyvista plots the scene which can be visualized
 	e. The scene is saved as a .stl file
 
