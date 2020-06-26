@@ -73,7 +73,7 @@ Or if you want to avoid appending the path, either use export PYTHONPATH=$PYTHON
 	
 ## Scene Generation 
 
-To create .xyz files from the .txt pointclouds, use xyzmaker.py and provide the path to the folder containing txt files as a command line argument.
+To create .xyz files from the .txt pointclouds, use xyzmaker.py and provide the path to the folder containing txt files as a command line argument. For algorithms other than delaunay triangulation, refer to visualization_techniques.py
 
 	Eg: python3 xyzmaker.py path/to/directory
 	
