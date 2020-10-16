@@ -26,7 +26,12 @@ There is a shell script provided in the scripts directory for installation on Ma
 
 Or if you want to avoid appending the path, either use export PYTHONPATH=$PYTHONPATH:/usr/local/lib or add PYTHONPATH=$PYTHONPATH:/usr/local/lib to .bash_profile and .bashrc files.
 
-#### 3. Install the requirements of the project
+#### 3. Clone the repository
+	
+	git clone --recurse-submodules https://github.com/shadow-guardiann/3D_Maps.git
+	
+	
+#### 4. Install the requirements of the project
 
 	pip install -r requirements.txt
 	
