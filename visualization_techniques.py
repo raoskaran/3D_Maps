@@ -55,8 +55,8 @@ def display_inlier_outlier(cloud, ind):
 
 #----------------------------------------------Preprocessing----------------------------------------------
 
-pcd = o3d.io.read_point_cloud("data/scenes/continous_final.xyz")
-cloud = PyntCloud.from_file("data/scenes/nochair.xyz", sep=" ")
+pcd = o3d.io.read_point_cloud("data/scenes/chair.xyz")
+cloud = PyntCloud.from_file("data/scenes/chair.xyz", sep=" ")
 times = []
 algorithms = ['Ball Pivoting','Tetrahedral','Alpha','Delaunay','Poisson','MC(Pymcubes)','MC(Skimage)']
 
@@ -77,33 +77,33 @@ pcd.estimate_normals()
 
 #----------------------------------------------Ball pivoting----------------------------------------------
 
-# start = time.time()
+start = time.time()
 
-# mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_ball_pivoting(
-#            pcd,
-#            o3d.utility.DoubleVector([radius, radius * 2]))
+mesh = o3d.geometry.TriangleMesh.create_from_point_cloud_ball_pivoting(
+           pcd,
+           o3d.utility.DoubleVector([radius, radius * 2]))
 
-# end = time.time()
+end = time.time()
 
-# times.append(end-start)
+times.append(end-start)
 
-# mesh.compute_vertex_normals()
+mesh.compute_vertex_normals()
 
-# trimesh = trimesh.Trimesh(np.asarray(mesh.vertices), np.asarray(mesh.triangles), vertex_normals=np.asarray(mesh.vertex_normals))
+trimesh = trimesh.Trimesh(np.asarray(mesh.vertices), np.asarray(mesh.triangles), vertex_normals=np.asarray(mesh.vertex_normals))
 
-# trimesh.show()
+trimesh.show()
 
 #----------------------------------------------Tetrahederal-----------------------------------------------
 
-# start = time.time()
+start = time.time()
 
-# mesh = o3d.geometry.TetraMesh.create_from_point_cloud(pcd)[0]
+mesh = o3d.geometry.TetraMesh.create_from_point_cloud(pcd)[0]
 
-# end = time.time()
+end = time.time()
 
-# times.append(end-start)
+times.append(end-start)
 
-# o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
+o3d.visualization.draw_geometries([mesh]) # Visualization for tetrahedral
 
 #----------------------------------------------Alpha---------------------------------------------------------
 
@@ -130,33 +130,33 @@ pcd.estimate_normals()
 
 #----------------------------------------------Poisson reconstruction---------------------------------------
 
-# o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Debug)
+o3d.utility.set_verbosity_level(o3d.utility.VerbosityLevel.Debug)
 
-# # o3d.visualization.draw_geometries([pcd])
-# start = time.time()
-# print('run Poisson surface reconstruction')
-# mesh, densities = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(
-#     pcd, depth=8)
-# # o3d.visualization.draw_geometries([mesh])
-
-# print('visualize densities')
-# densities = np.asarray(densities)
-# density_colors = plt.get_cmap('plasma')(
-#     (densities - densities.min()) / (densities.max() - densities.min()))
-# density_colors = density_colors[:, :3]
-# density_mesh = o3d.geometry.TriangleMesh()
-# density_mesh.vertices = mesh.vertices
-# density_mesh.triangles = mesh.triangles
-# density_mesh.triangle_normals = mesh.triangle_normals
-# density_mesh.vertex_colors = o3d.utility.Vector3dVector(density_colors)
-# # o3d.visualization.draw_geometries([density_mesh])
-
-# print('remove low density vertices')
-# vertices_to_remove = densities < np.quantile(densities, 0.1)
-# mesh.remove_vertices_by_mask(vertices_to_remove)
-# end = time.time()
-# times.append(end-start)
+# o3d.visualization.draw_geometries([pcd])
+start = time.time()
+print('run Poisson surface reconstruction')
+mesh, densities = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(
+    pcd, depth=8)
 # o3d.visualization.draw_geometries([mesh])
+
+print('visualize densities')
+densities = np.asarray(densities)
+density_colors = plt.get_cmap('plasma')(
+    (densities - densities.min()) / (densities.max() - densities.min()))
+density_colors = density_colors[:, :3]
+density_mesh = o3d.geometry.TriangleMesh()
+density_mesh.vertices = mesh.vertices
+density_mesh.triangles = mesh.triangles
+density_mesh.triangle_normals = mesh.triangle_normals
+density_mesh.vertex_colors = o3d.utility.Vector3dVector(density_colors)
+# o3d.visualization.draw_geometries([density_mesh])
+
+print('remove low density vertices')
+vertices_to_remove = densities < np.quantile(densities, 0.1)
+mesh.remove_vertices_by_mask(vertices_to_remove)
+end = time.time()
+times.append(end-start)
+o3d.visualization.draw_geometries([mesh])
 
 #----------------------------------------------Marching cubes-----------------------------------------------
 
@@ -176,30 +176,30 @@ pcd.estimate_normals()
 
 #----------------------------------------------Marching cubes skimage---------------------------------------
 
-# start = time.time()
+start = time.time()
 
-# voxel = generate_voxel(cloud)
+voxel = generate_voxel(cloud)
 
-# verts, faces, normals, values = measure.marching_cubes_lewiner(voxel, 0)
+verts, faces, normals, values = measure.marching_cubes_lewiner(voxel, 0)
 
-# # Display resulting triangular mesh using Matplotlib. This can also be done
-# # with mayavi (see skimage.measure.marching_cubes_lewiner docstring).
-# fig = plt.figure(figsize=(10, 10))
-# ax = fig.add_subplot(111, projection='3d')
+# Display resulting triangular mesh using Matplotlib. This can also be done
+# with mayavi (see skimage.measure.marching_cubes_lewiner docstring).
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot(111, projection='3d')
 
-# # Fancy indexing: `verts[faces]` to generate a collection of triangles
-# mesh = Poly3DCollection(verts[faces])
-# mesh.set_edgecolor('k')
-# end = time.time()
-# times.append(end-start)
-# ax.add_collection3d(mesh)
+# Fancy indexing: `verts[faces]` to generate a collection of triangles
+mesh = Poly3DCollection(verts[faces])
+mesh.set_edgecolor('k')
+end = time.time()
+times.append(end-start)
+ax.add_collection3d(mesh)
 
-# ax.set_xlim(0, 24)  # a = 6 (times two for 2nd ellipsoid)
-# ax.set_ylim(0, 20)  # b = 10
-# ax.set_zlim(0, 32)  # c = 16
+ax.set_xlim(0, 24)  # a = 6 (times two for 2nd ellipsoid)
+ax.set_ylim(0, 20)  # b = 10
+ax.set_zlim(0, 32)  # c = 16
 
-# plt.tight_layout()
-# plt.show()
+plt.tight_layout()
+plt.show()
 
 #----------------------------------------------Delaunay Triangulation---------------------------------------
 
