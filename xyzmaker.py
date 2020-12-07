@@ -1,3 +1,6 @@
+"""
+This code was written and updated by Christo Aluckal (@christoaluckal)
+"""
 import os
 import fnmatch
 import csv, sys

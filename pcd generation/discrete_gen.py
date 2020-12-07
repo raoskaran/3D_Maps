@@ -1,3 +1,6 @@
+"""
+This code was written and updated by Christo Aluckal (@christoaluckal)
+"""
 from matplotlib import pyplot as plt
 import numpy as np
 import pyrealsense2 as rs

@@ -4,7 +4,9 @@
 ###############################################
 ##      Open CV and Numpy integration        ##
 ###############################################
-
+"""
+This code was written and updated by Christo Aluckal (@christoaluckal)
+"""
 import pyrealsense2 as rs
 import numpy as np
 import matplotlib.pyplot as plt
