@@ -28,7 +28,7 @@ Or if you want to avoid appending the path, either use export PYTHONPATH=$PYTHON
 
 #### 3. Clone the repository
 	
-	git clone --recurse-submodules https://github.com/shadow-guardiann/3D_Maps.git
+	git clone --recurse-submodules https://github.com/raoskaran/3D_Maps.git
 	
 	
 #### 4. Install the requirements of the project
